@@ -1,0 +1,16 @@
+{
+  "name": "dnd-companion-app",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start":"electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "A simple dnd companion app made to be used for DMing IRL",
+  "devDependencies": {
+    "electron": "^38.2.2"
+  }
+}
