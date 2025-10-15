@@ -18,7 +18,7 @@ window.api.recievedata((data) => {
   let camplink = document.createElement("a");
 
   camplink.innerHTML = data;
-  camplink.href = "#";
+  camplink.href = "./campaign.html";
 
   campinst.appendChild(camplink);
   document.body.appendChild(campinst);
