@@ -2,6 +2,10 @@ const { ipcRenderer, contextBridge } = require("electron");
 
 const WINDOW_API = {
   openchildwindow: () => ipcRenderer.send("openchildwindow"),
+  closechildwindow: () => ipcRenderer.send("closechildwindow"),
+  senddata: (data) => ipcRenderer.send("senddata", data),
+  recievedata: (callback) =>
+    ipcRenderer.on("recievedata", (_, data) => callback(data)),
 };
 
 contextBridge.exposeInMainWorld("api", WINDOW_API);

@@ -1,6 +1,9 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, webContents } = require("electron");
 const { join } = require("path");
 const { title } = require("process");
+
+let inputwindow;
+let mainwindow;
 
 const createWindow = () => {
   mainwindow = new BrowserWindow({
@@ -18,7 +21,7 @@ const createWindow = () => {
 };
 
 const createinputWindow = () => {
-  const inputwindow = new BrowserWindow({
+  inputwindow = new BrowserWindow({
     width: 400,
     height: 400,
     parent: mainwindow,
@@ -30,13 +33,24 @@ const createinputWindow = () => {
   });
   inputwindow.loadFile("inputwindow.html");
 };
+app.whenReady().then(() => {
+  createWindow();
+});
 
-//IPC here
+////////////////////////////////////////////////////IPC here
 
 ipcMain.on("openchildwindow", () => {
   createinputWindow();
 });
 
-app.whenReady().then(() => {
-  createWindow();
+ipcMain.on("closechildwindow", () => {
+  inputwindow.close();
 });
+//listening for data from the input window renderer
+ipcMain.on("senddata", (event, data) => {
+  console.log("Main got send this data: ", data);
+  //sends data to the main screen renderer
+  mainwindow.webContents.send("recievedata", data);
+});
+
+//////////////////////////////////////////////////////
