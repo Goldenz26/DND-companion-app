@@ -1,5 +1,11 @@
-dice = document.getElementById("dice");
+dicebtn = document.getElementById("dice");
 
-dice.addEventListener("click", () => {
+dicebtn.addEventListener("click", () => {
   window.api.opendicewindow();
+});
+
+npcsheetsbtn = document.getElementById("npcsheets");
+
+npcsheetsbtn.addEventListener("click", () => {
+  window.api.opennpcwindow();
 });

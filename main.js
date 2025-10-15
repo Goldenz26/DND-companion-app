@@ -6,6 +6,7 @@ const Store = require("electron-store").default;
 let inputwindow;
 let mainwindow;
 let dicewindow;
+let npcwindow;
 //declaring the schema here
 const schema = {
   Cname: {
@@ -22,6 +23,7 @@ const schema = {
   },
 };
 //////////////////////////////////////////////
+//window declarations here
 const storage = new Store(schema);
 
 const createWindow = () => {
@@ -65,12 +67,32 @@ const createdicewindow = () => {
   });
   dicewindow.loadFile("./dice.html");
 };
+const createnpcwindow = () => {
+  npcwindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    parent: mainwindow,
+    webPreferences: {
+      preload: join(__dirname, "./preload.js"),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+  npcwindow.loadFile("./npc.html");
+};
 
 app.whenReady().then(() => {
   createWindow();
 });
 
 ////////////////////////////////////////////////////IPC here
+ipcMain.on("opennpcwindow", () => {
+  createnpcwindow();
+});
+
+ipcMain.on("closedicewindow", () => {
+  npcwindow.close();
+});
 
 ipcMain.on("opendicewindow", () => {
   createdicewindow();
