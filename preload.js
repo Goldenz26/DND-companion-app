@@ -16,6 +16,8 @@ const WINDOW_API = {
   set_current_camp: (nameofcamp) =>
     ipcRenderer.send("set_current_camp", nameofcamp),
   get_current_camp: () => ipcRenderer.invoke("get_current_camp"),
+  opennpcinputwindow: () => ipcRenderer.send("opennpcinputwindow"),
+  closenpcinputwindow: () => ipcRenderer.send("closenpcinputwindow"),
 };
 
 contextBridge.exposeInMainWorld("api", WINDOW_API);

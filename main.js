@@ -11,6 +11,7 @@ let inputwindow;
 let mainwindow;
 let dicewindow;
 let npcwindow;
+let npcinputwindow;
 //declaring the schema here
 
 //////////////////////////////////////////////
@@ -70,7 +71,19 @@ const createnpcwindow = () => {
   });
   npcwindow.loadFile("./npc.html");
 };
-
+const createnpcinputwindow = () => {
+  npcinputwindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    parent: mainwindow,
+    webPreferences: {
+      preload: join(__dirname, "./preload.js"),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+  npcinputwindow.loadFile("./npcinput.html");
+};
 app.whenReady().then(() => {
   createWindow();
 });
@@ -90,6 +103,13 @@ ipcMain.on("opendicewindow", () => {
 
 ipcMain.on("closedicewindow", () => {
   dicewindow.close();
+});
+ipcMain.on("opennpcinputwindow", () => {
+  createnpcinputwindow();
+});
+
+ipcMain.on("closenpcinputwindow", () => {
+  npcinputwindow.close();
 });
 
 ipcMain.on("openchildwindow", () => {
