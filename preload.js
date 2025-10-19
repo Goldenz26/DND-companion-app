@@ -9,7 +9,13 @@ const WINDOW_API = {
   closenpcwindow: () => ipcRenderer.send("closenpcwindow"),
   senddata: (data) => ipcRenderer.send("senddata", data),
   recievedata: (callback) =>
-    ipcRenderer.on("recievedata", (_, data) => callback(data)),
+    ipcRenderer.on("recievedata", (event, data) => callback(data)),
+
+  get_storage_Cname: () => ipcRenderer.invoke("get_storage_Cname"),
+
+  set_current_camp: (nameofcamp) =>
+    ipcRenderer.send("set_current_camp", nameofcamp),
+  get_current_camp: () => ipcRenderer.invoke("get_current_camp"),
 };
 
 contextBridge.exposeInMainWorld("api", WINDOW_API);

@@ -1,30 +1,20 @@
+const { KeyObject } = require("crypto");
 const { app, BrowserWindow, ipcMain, webContents } = require("electron");
 const { type } = require("os");
 const { join } = require("path");
+const { title } = require("process");
 const { Z_NO_COMPRESSION } = require("zlib");
-const Store = require("electron-store").default;
+const Database = require("better-sqlite3");
+const db = new Database("./database/dndcomp.db");
+let currentcamp;
 let inputwindow;
 let mainwindow;
 let dicewindow;
 let npcwindow;
 //declaring the schema here
-const schema = {
-  Cname: {
-    type: String,
-    default: "",
-  },
-  NPC: {
-    type: Object,
-    properties: {
-      firstname: { type: String, default: "" },
-      lastname: { type: String, default: "" },
-    },
-    default: {},
-  },
-};
+
 //////////////////////////////////////////////
 //window declarations here
-const storage = new Store(schema);
 
 const createWindow = () => {
   mainwindow = new BrowserWindow({
@@ -113,11 +103,21 @@ ipcMain.on("closechildwindow", () => {
 ipcMain.on("senddata", (event, data) => {
   console.log("Main got send this data: ", data);
 
-  storage.set("Cname", data);
-  console.log("in storage: ", storage.get("Cname"));
+  db.run("INSERT OR IGNORE INTO campaign (Cname) VALUES(?)").run(data);
+  console.log("Campaign saved successfully!");
 
   //sends data to the main screen renderer
   mainwindow.webContents.send("recievedata", data);
 });
+ipcMain.handle("get_storage_Cname", () => {
+  const rows = db.prepare("SELECT * FROM campaign").all();
+  return rows;
+});
 
-//////////////////////////////////////////////////////
+ipcMain.on("set_current_camp", (event, nameofcamp) => {
+  currentcamp = nameofcamp;
+});
+
+ipcMain.handle("get_current_camp", async (event, args) => {
+  return currentcamp;
+});
