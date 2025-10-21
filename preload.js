@@ -18,6 +18,11 @@ const WINDOW_API = {
   get_current_camp: () => ipcRenderer.invoke("get_current_camp"),
   opennpcinputwindow: () => ipcRenderer.send("opennpcinputwindow"),
   closenpcinputwindow: () => ipcRenderer.send("closenpcinputwindow"),
+  add_NPC: (fname, lname) => ipcRenderer.send("add_NPC", fname, lname),
+  get_current_camp: () => ipcRenderer.invoke("get_current_camp"),
+  get_NPC: (callback) =>
+    ipcRenderer.on("get_NPC", (event, fname, lname) => callback(fname, lname)),
+  get_NPC_Array: () => ipcRenderer.invoke("get_NPC_Array"),
 };
 
 contextBridge.exposeInMainWorld("api", WINDOW_API);

@@ -141,3 +141,18 @@ ipcMain.on("set_current_camp", (event, nameofcamp) => {
 ipcMain.handle("get_current_camp", async (event, args) => {
   return currentcamp;
 });
+
+ipcMain.on("add_NPC", (event, fname, lname) => {
+  const stmt = db.prepare(
+    "INSERT OR IGNORE INTO NPC (Cname,FirstN,LastN) VALUES(@Camp,@Fname,@Lname)"
+  );
+  stmt.run({ Camp: currentcamp, Fname: fname, Lname: lname });
+
+  console.log(fname, lname, " has been added to: ", currentcamp),
+    npcwindow.webContents.send("get_NPC", fname, lname);
+});
+ipcMain.handle("get_NPC_Array", () => {
+  const stmt = db.prepare("SELECT * FROM NPC WHERE Cname = ?");
+  const rows = stmt.all(currentcamp);
+  return rows;
+});
