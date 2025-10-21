@@ -28,7 +28,7 @@ window.api.get_NPC((FirstN, LastN) => {
 window.onload = async () => {
   NPC = await window.api.get_NPC_Array();
 
-  if (NPC) {
+  if (NPC && NPC.length > 0) {
     nonpcdiv.style.display = "none";
     NPC.forEach((element) => {
       let NPCinst = document.createElement("div");

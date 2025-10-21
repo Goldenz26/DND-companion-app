@@ -29,7 +29,7 @@ const createWindow = () => {
     },
   });
 
-  mainwindow.loadFile("index.html");
+  mainwindow.loadFile("./index.html");
 };
 
 const createinputWindow = () => {
@@ -43,7 +43,7 @@ const createinputWindow = () => {
       contextIsolation: true,
     },
   });
-  inputwindow.loadFile("inputwindow.html");
+  inputwindow.loadFile("./inputwindow.html");
 };
 const createdicewindow = () => {
   dicewindow = new BrowserWindow({

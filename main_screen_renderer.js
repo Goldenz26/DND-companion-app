@@ -15,7 +15,7 @@ addnewcampplus.addEventListener("click", () => {
 
 window.api.recievedata((data) => {
   nocampdiv.style.display = "none";
-  addnewcampplus.style.display = "inline";
+  addnewcampplus.style.display = "block";
 
   let campinst = document.createElement("div");
 
@@ -25,7 +25,7 @@ window.api.recievedata((data) => {
   let camplink = document.createElement("a");
 
   camplink.innerHTML = data;
-  camplink.href = "./campaign.html";
+  camplink.href = "./src/html/campaign.html";
   camplink.addEventListener("click", () => {
     window.api.set_current_camp(data);
   });
@@ -41,7 +41,7 @@ window.onload = async () => {
   if (campaign) {
     campaign.forEach((element) => {
       nocampdiv.style.display = "none";
-      addnewcampplus.style.display = "inline";
+      addnewcampplus.style.display = "block";
 
       let campinst = document.createElement("div");
 
